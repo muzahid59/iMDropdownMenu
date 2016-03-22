@@ -1,2 +1,3 @@
 # iMDropdownMenu
-iOS Drop-down menu library.
+
+![alt tag](demo.gif)
