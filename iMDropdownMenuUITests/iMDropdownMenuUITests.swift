@@ -27,9 +27,26 @@ class iMDropdownMenuUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+	
+	func screenCapture(){
+		
+		
+	}
+	
     func testExample() {
-        // Use recording to get started writing UI tests.
+			
+			let app = XCUIApplication()
+			let arrowDownButton = app.navigationBars["iMenu"].buttons["arrow down"]
+			arrowDownButton.tap()
+			app.buttons["Leicester City"].tap()
+			arrowDownButton.tap()
+			app.buttons["Tottenham"].tap()
+			arrowDownButton.tap()
+			app.buttons["Man City"].tap()
+			arrowDownButton.tap()
+			app.buttons["West Ham"].tap()
+			
+				// Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     

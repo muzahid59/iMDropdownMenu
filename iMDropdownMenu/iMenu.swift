@@ -14,6 +14,10 @@ protocol iMenuDelegate{
 	
 }
 
+
+let cell_background_color = UIColor.blueColor()
+let cell_text_color = UIColor.whiteColor()
+
 class iMenu: UIView {
 
 	private var items:[UIButton] // Number of Cell in Menu
@@ -108,8 +112,8 @@ class iMenu: UIView {
 		newItem.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), k_item_height)
 		newItem.setTitle(name, forState: .Normal)
 		newItem.titleLabel?.font = UIFont.systemFontOfSize(20)
-		newItem.backgroundColor = UIColor.blueColor()
-		newItem.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+		newItem.backgroundColor = cell_background_color
+		newItem.setTitleColor(cell_text_color, forState: .Normal)
 		newItem.layer.borderWidth = 0.5
 		newItem.layer.borderColor = UIColor.blackColor().CGColor
 		return newItem

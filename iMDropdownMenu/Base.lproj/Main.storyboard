@@ -16,7 +16,23 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Item" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xdM-by-dpq">
+                                <rect key="frame" x="20" y="268" width="560" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="Xn4-kj-cam"/>
+                                    <constraint firstAttribute="width" constant="560" id="qqg-04-d1V"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xdM-by-dpq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lSB-dY-g69"/>
+                            <constraint firstItem="xdM-by-dpq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="sbC-k2-Ft5"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7gr-IH-cR9">
                         <barButtonItem key="rightBarButtonItem" image="arrow_down.png" id="hES-Ah-ZUA">
@@ -26,10 +42,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="selectedCellLabel" destination="xdM-by-dpq" id="guG-Ak-OUD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1365" y="413"/>
+            <point key="canvasLocation" x="1125" y="422"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7lg-7I-csM">
