@@ -19,19 +19,21 @@ class Color {
 
 protocol iMenuDelegate{
 	
-	func tapOnMenu(name: String, atIndex index: Int)
+	func tapOnMenu(_ name: String, atIndex index: Int)
 	
 }
 
-class iMenu: UIView {
+
+
+class iMenu: UIScrollView {
 	
-	private var items:[UIButton] // Number of Cell in Menu
-	private var blur: UIView?  // Background make blur
-	private var superView:UIView? // the super view that hold the menu
-	private var myFrame:CGRect
-	private var isHide = true
+	fileprivate var items:[UIButton] // Number of Cell in Menu
+	fileprivate var blur: UIView?  // Background make blur
+	fileprivate var superView:UIView? // the super view that hold the menu
+	fileprivate var myFrame:CGRect
+	fileprivate var isHide = true
 	
-	var delegate: iMenuDelegate?
+	var iDelegate: iMenuDelegate?
 	
 	let k_item_height:CGFloat = 44.0 // Menu Cell height
 	
@@ -50,19 +52,19 @@ class iMenu: UIView {
 		blur = UIView()
 		let tap = UITapGestureRecognizer(target: self, action: #selector(iMenu.tapOnBackGround(_:)))
 		blur?.addGestureRecognizer(tap)
-		blur?.userInteractionEnabled = true
-		blur!.backgroundColor = UIColor.blackColor()
-		blur!.layer.opacity = 0.4
+		blur?.isUserInteractionEnabled = true
+		blur?.backgroundColor = UIColor.black
+		blur?.layer.opacity = 0.4
 	}
 	
-	func tapOnBackGround(tap: UITapGestureRecognizer){
+	func tapOnBackGround(_ tap: UITapGestureRecognizer){
 		self.hide()
 	}
 	
 	/**
 	Remove the previous items and added the new set of items
 	*/
-	func setItems(items:[String]){
+	func setItems(_ items:[String]){
 		self.items = []
 		for name in items{
 			self.items.append(newItem(name))
@@ -75,17 +77,17 @@ class iMenu: UIView {
 	- parameters:
 	- name: Name to the new item to add
 	*/
-	func addItem(name: String){
+	func addItem(_ name: String){
 		self.items.append(newItem(name))
 		reload()
 	}
 	
 	/**
 	Add multiple items to the menu list.
-	- parameters:
-	- items: The array of string.
+   - parameters:
+   - items: The array of string.
 	*/
-	func addItems(items:[String]){
+	func addItems(_ items:[String]){
 		for name in items{
 			
 			self.items.append(newItem(name))
@@ -98,14 +100,14 @@ class iMenu: UIView {
 	- index: The array of index of the item which becomes enable
 	*/
 	
-	func enableItemAtIndexes(indexes: [Int]){
+	func enableItemAtIndexes(_ indexes: [Int]){
 		
 		for index in indexes{
 			
 			if index < items.count {
 				
-				self.items[index].enabled  = true
-				self.items[index].setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+				self.items[index].isEnabled  = true
+				self.items[index].setTitleColor(UIColor.white, for: UIControlState())
 				
 			}else{
 				print("index out of range")
@@ -122,14 +124,14 @@ class iMenu: UIView {
 	
 	*/
 	
-	func disableItemAtIndexes(indexes:[Int]){
+	func disableItemAtIndexes(_ indexes:[Int]){
 		
 		for index in indexes{
 			
 			if index < items.count {
 				
-				self.items[index].enabled  = false
-				self.items[index].setTitleColor(Color.placeHoderColor, forState: UIControlState.Normal)
+				self.items[index].isEnabled  = false
+				self.items[index].setTitleColor(Color.placeHoderColor, for: UIControlState())
 				
 			}else{
 				print("index out of range")
@@ -146,15 +148,15 @@ class iMenu: UIView {
 	- name: Name of the new item for the menu.
 	*/
 	
-	private func newItem(name: String)->UIButton{
+	fileprivate func newItem(_ name: String)->UIButton{
 		let newItem = UIButton()
-		newItem.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), k_item_height)
-		newItem.setTitle(name, forState: .Normal)
-		newItem.titleLabel?.font = UIFont.systemFontOfSize(20)
+		newItem.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: k_item_height)
+		newItem.setTitle(name, for: UIControlState())
+		newItem.titleLabel?.font = UIFont.systemFont(ofSize: 20)
 		newItem.backgroundColor = Color.themecolor
-		newItem.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+		newItem.setTitleColor(UIColor.white, for: UIControlState())
 		newItem.layer.borderWidth = 0.5
-		newItem.layer.borderColor = UIColor.blackColor().CGColor
+		newItem.layer.borderColor = UIColor.black.cgColor
 		return newItem
 	}
 	
@@ -168,7 +170,7 @@ class iMenu: UIView {
 			view.removeFromSuperview()
 		}
 		
-		self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(self.frame), CGFloat(self.items.count) * k_item_height)
+		self.frame = CGRect(x: self.frame.minX, y: self.frame.minY, width: self.frame.width, height: CGFloat(self.items.count) * k_item_height)
 		myFrame = self.frame
 		
 		guard !self.items.isEmpty else{
@@ -181,13 +183,13 @@ class iMenu: UIView {
 		for i in 0..<self.items.count{
 			items[i].frame.origin.y = yPos
 			items[i].tag = i
-			items[i].addTarget(self, action: #selector(iMenu.tapOnCell(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+			items[i].addTarget(self, action: #selector(iMenu.tapOnCell(_:)), for: UIControlEvents.touchUpInside)
 			self.addSubview(items[i])
 			yPos = yPos + k_item_height
 		}
 		
 		if let blur = self.blur{
-			blur.frame = CGRectMake(CGRectGetMinX(blur.frame), CGRectGetHeight(self.myFrame), CGRectGetWidth(blur.frame), CGRectGetHeight(blur.frame) - CGRectGetHeight(self.myFrame))
+			blur.frame = CGRect(x: blur.frame.minX, y: self.myFrame.height, width: blur.frame.width, height: blur.frame.height - self.myFrame.height)
 		}
 		
 	}
@@ -199,7 +201,7 @@ class iMenu: UIView {
 	- view: The main view or container view under which the list become visiable.
 	*/
 	
-	func addToView(view: UIView){
+	func addToView(_ view: UIView){
 		
 		self.superView = view
 		blur?.frame = self.superView!.bounds
@@ -211,11 +213,11 @@ class iMenu: UIView {
 	- parameters:
 	- sender: UIButton in which is tapped
 	*/
-	func tapOnCell(sender: UIButton){
+	func tapOnCell(_ sender: UIButton){
 		
 		self.hide()
 		
-		if let del = self.delegate{
+		if let del = self.iDelegate{
 			if let title = sender.currentTitle{
 				del.tapOnMenu(title, atIndex: sender.tag)
 			}else{
@@ -242,25 +244,26 @@ class iMenu: UIView {
 		}
 		
 		// if blur view does not added the main view
-		if !blur!.isDescendantOfView(mainView){
+		if !blur!.isDescendant(of: mainView){
 			mainView.addSubview(blur!)
 			
 		}
 		
 		// if the menu container view does not added tha super view
-		if !self.isDescendantOfView(mainView){
+		if !self.isDescendant(of: mainView){
 			mainView.addSubview(self)
 		}
 		
-		self.frame = CGRectMake(CGRectGetMinX(self.myFrame), CGRectGetMinY(self.myFrame)-CGRectGetHeight(self.myFrame), CGRectGetWidth(self.myFrame), CGRectGetHeight(self.myFrame))
+		self.frame = CGRect(x: self.myFrame.minX, y: self.myFrame.minY-self.myFrame.height, width: self.myFrame.width, height: self.myFrame.height)
 		
 		// menu make animated
-		[UIView .animateWithDuration(0.2, animations: { () -> Void in
+    
+		UIView.animate(withDuration: 0.2, animations: {
 			self.frame = self.myFrame
 			}, completion: { (bool) -> Void in
 				self.isHide = false
 				self.shake()
-		})]
+		})
 		
 		
 	}
@@ -276,13 +279,15 @@ class iMenu: UIView {
 			return
 		}
 		
-		[UIView .animateWithDuration(0.2, animations: { () -> Void in
-			self.frame = CGRectMake(CGRectGetMinX(self.myFrame), CGRectGetMinY(self.myFrame)-CGRectGetHeight(self.myFrame), CGRectGetWidth(self.myFrame), CGRectGetHeight(self.myFrame))
+    
+    
+		UIView.animate(withDuration: 0.2, animations: {
+			self.frame = CGRect(x: self.myFrame.minX, y: self.myFrame.minY-self.myFrame.height, width: self.myFrame.width, height: self.myFrame.height)
 			}, completion: { (bool) -> Void in
 				self.isHide = true
 				self.blur?.removeFromSuperview()
 				self.removeFromSuperview()
-		})]
+		})
 		
 	}
 	required init?(coder aDecoder: NSCoder) {
@@ -301,9 +306,9 @@ extension UIView{
 		animation.duration = 0.1
 		animation.repeatCount = 0
 		animation.autoreverses = false
-		animation.fromValue = NSValue(CGPoint: CGPointMake(self.center.x , self.center.y + 10))
-		animation.toValue = NSValue(CGPoint: CGPointMake(self.center.x , self.center.y))
-		self.layer.addAnimation(animation, forKey: "position")
+		animation.fromValue = NSValue(cgPoint: CGPoint(x: self.center.x , y: self.center.y + 10))
+		animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x , y: self.center.y))
+		self.layer.add(animation, forKey: "position")
 	}
 }
 

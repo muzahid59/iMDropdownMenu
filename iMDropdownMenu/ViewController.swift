@@ -14,17 +14,17 @@ class ViewController: UIViewController{
 	var menu: iMenu!
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+    
 		self.title = "iMenu"
 		
-		menu = iMenu(frame: CGRectMake(0, 64, CGRectGetWidth(self.view.frame), 200))
+		menu = iMenu(frame: CGRect(x: 0, y: 64, width: self.view.frame.width, height: 200))
 		menu.addItems(["Leicester City","Tottenham","Arsenal","Man City","West Ham"])
-		menu.delegate = self
+		menu.iDelegate = self
 		menu.addToView(self.view)
 		// Do any additional setup after loading the view, typically from a nib.
 	}
 	
-	@IBAction func menuButtonAction(sender: AnyObject) {
+	@IBAction func menuButtonAction(_ sender: AnyObject) {
 		
 		menu.show()
 		
@@ -39,7 +39,7 @@ class ViewController: UIViewController{
 }
 
 extension ViewController: iMenuDelegate{
-	func tapOnMenu(name: String, atIndex index: Int){
+	func tapOnMenu(_ name: String, atIndex index: Int){
 		selectedCellLabel.text = name
 	}
 }
